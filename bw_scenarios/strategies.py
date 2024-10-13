@@ -18,9 +18,11 @@ def separate_keys(data: pd.DataFrame) -> pd.DataFrame:
         except Exception as e:
             return pd.Series((None, None, ))
 
+    # copy "from key" column, assign to "from database" and "from code" 2 columns.
     data[["from database", "from code"]] = data["from key"].apply(parse)
     data[["to database", "to code"]] = data["to key"].apply(parse)
 
+    # drop those columns.
     data.drop(columns=["from key", "to key"], inplace=True)
 
     return data

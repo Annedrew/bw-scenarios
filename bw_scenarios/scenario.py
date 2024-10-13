@@ -53,10 +53,15 @@ class Scenario(ProcessedDataStore):
 
         if matrix_name == "technosphere":
             for to_act_id, exchanges_info in self.exchanges.items():
+                # print(f"to_act_id: {to_act_id}")
+                # print(f"exchanges_info: {exchanges_info}")
                 for from_act_id, exc_type, amount in exchanges_info:
+                    # print(f"from_act_id: {from_act_id}")
+                    # print(f"exc_type: {exc_type}")
+                    # print(f"amount: {amount}")
+                    # print((from_act_id, to_act_id))
                     if exc_type == "biosphere":  # skip biosphere exchanges,
                         continue
-
                     t_indices.append((from_act_id, to_act_id))
                     t_data.append(amount)
                     if exc_type in labels.technosphere_negative_edge_types:
@@ -64,15 +69,15 @@ class Scenario(ProcessedDataStore):
                     else:
                         t_flip.append(False)
 
-        if matrix_name == "biosphere":
-            for to_act_id, exchanges_info in self.exchanges.items():
-                for from_act_id, exc_type, amount in exchanges_info:
-                    if (
-                        exc_type in labels.biosphere_edge_types
-                    ):  # write only biosphere exchanges:
-                        t_indices.append((from_act_id, to_act_id))
-                        t_data.append(amount)
-            t_flip = None  # no sign flipping needed for biosphere exchanges
+        # if matrix_name == "biosphere":
+        #     for to_act_id, exchanges_info in self.exchanges.items():
+        #         for from_act_id, exc_type, amount in exchanges_info:
+        #             if (
+        #                 exc_type in labels.biosphere_edge_types
+        #             ):  # write only biosphere exchanges:
+        #                 t_indices.append((from_act_id, to_act_id))
+        #                 t_data.append(amount)
+        #     t_flip = None  # no sign flipping needed for biosphere exchanges
 
         return (
             np.array(t_indices, dtype=bwp.INDICES_DTYPE),
